@@ -1,0 +1,55 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Add Question
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="text-center">Add New Question</h1>
+
+    <div class="container mt-4">
+        <form method="POST" action="/add_question" class="mx-auto" style="max-width: 420px;">
+            <div class="mb-3">
+                <label for="question" class="form-label">Question</label>
+                <input type="text" class="form-control" id="question" name="question" required autocomplete="off" style="width: 100%;" autofocus>
+            </div>
+            <div class="mb-3">
+                <label for="option0" class="form-label">Option 0</label>
+                <input type="text" class="form-control" id="option0" name="option0" required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="option1" class="form-label">Option 1</label>
+                <input type="text" class="form-control" id="option1" name="option1" required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="option2" class="form-label">Option 2</label>
+                <input type="text" class="form-control" id="option2" name="option2" required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="option3" class="form-label">Option 3</label>
+                <input type="text" class="form-control" id="option3" name="option3" required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="answer" class="form-label">Correct Answer (0-3)</label>
+                <input type="number" class="form-control" id="answer" name="answer" min="0" max="3" required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="level" class="form-label">Level</label>
+                <input type="text" class="form-control" id="level" name="level" value="{{ level }}" autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Type</label>
+                <input type="text" class="form-control" id="type" name="type" value="{{ type }}"required autocomplete="off" style="width: 100%;">
+            </div>
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary mt-3">Submit</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="text-center">
+        <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
+    </div>
+
+{% endblock %}

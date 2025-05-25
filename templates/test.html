@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{ type }} Test
+{% endblock %}
+
+{% block main %}
+
+    <h1>Take {{ type }} test:</h1>
+
+    <form method="post" action="/result/{{ type }}" name="testForm">
+        <div class="container d-flex justify-content-center">
+            <div class="question-container mb-4">
+                {% for question in questions %}
+                    <br><br>
+                    <div class="d-flex flex-column gap-2 text-center">
+                        <label class="d-flex align-items-center justify-content-center">
+                            <p class="h5 mb-2">{{ loop.index }}. {{ question["question"] }}</p>
+                        </label>
+                        <label class="d-flex align-items-center justify-content-center">
+                            <input type="radio" name="question{{ question['id'] }}" value="0" onclick="toggleRadio(this)">
+                            {{ question["option0"] }}
+                        </label>
+                        <label class="d-flex align-items-center justify-content-center">
+                            <input type="radio" name="question{{ question['id'] }}" value="1" onclick="toggleRadio(this)">
+                            {{ question["option1"] }}
+                        </label>
+                        <label class="d-flex align-items-center justify-content-center">
+                            <input type="radio" name="question{{ question['id'] }}" value="2" onclick="toggleRadio(this)">
+                            {{ question["option2"] }}
+                        </label>
+                        <label class="d-flex align-items-center justify-content-center">
+                            <input type="radio" name="question{{ question['id'] }}" value="3" onclick="toggleRadio(this)">
+                            {{ question["option3"] }}
+                        </label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Submit</button>
+    </form>
+
+    <script>
+        function toggleRadio(radio) {
+            if (radio.checked) {
+                if (radio.dataset.wasChecked === "true") {
+                    radio.checked = false;
+                    radio.dataset.wasChecked = "false";
+                } else {
+                    radio.dataset.wasChecked = "true";
+                }
+            } else {
+                radio.dataset.wasChecked = "false";
+            }
+        }
+    </script>
+    
+{% endblock %}

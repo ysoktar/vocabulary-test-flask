@@ -1,0 +1,169 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Delete Question
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="text-center">Delete Question</h1>
+    
+    <div class="container mt-4 text-center">
+        <form action="/delete_question" method="POST" class="mx-auto" style="max-width: 420px;">
+            <div class="row mb-3 g-4">
+                <div class="col-md-12 mb-3">
+                    <label for="filter" class="form-label">Search for Question</label>
+                    <input type="text" class="form-control" id="filter" onkeyup="filterQuestions()" placeholder="Search for questions..." style="width: 100%; padding-left: 15px; padding-right: 15px;">
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="type_filter" class="form-label">Filter by Type</label>
+                    <select class="form-control" id="type_filter" onchange="filterQuestions()" style="width: 100%; padding-left: 15px; padding-right: 15px;">
+                        <option value="">Select Type</option>
+                        {% for type in types %}
+                            <option value="{{ type }}">{{ type }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label for="level_filter" class="form-label">Filter by Level</label>
+                    <select class="form-control" id="level_filter" onchange="filterQuestions()" style="width: 100%; padding-left: 15px; padding-right: 15px;">
+                        <option value="">Select Level</option>
+                        {% for level in levels %}
+                            <option value="{{ level }}">{{ level }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="question_id" id="qe" class="form-label">Select Question to Delete (id, question text): {{ num }} question(s) listed</label>
+                <select class="form-control" id="question_id" name="question_id" required size="10" style="overflow-x: auto;" onchange="populateFields()">
+                    <option value="">Select a question</option>
+                    {% for question in questions %}
+                        <option value="{{ question.id }}"
+                                data-question="{{ question.question }}"
+                                data-option0="{{ question.option0 }}"
+                                data-option1="{{ question.option1 }}"
+                                data-option2="{{ question.option2 }}"
+                                data-option3="{{ question.option3 }}"
+                                data-answer="{{ question.answer }}"
+                                data-level="{{ question.level }}"
+                                data-type="{{ question.type }}">
+                            {{ question.id }}, {{ question.question }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <br><br>
+
+            <div class="mb-3">
+                <label for="new_question" class="form-label">Question Text</label>
+                <input type="text" class="form-control" id="new_question" name="new_question" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="option0" class="form-label">Option 0</label>
+                <input type="text" class="form-control" id="option0" name="option0" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="option1" class="form-label">Option 1</label>
+                <input type="text" class="form-control" id="option1" name="option1" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="option2" class="form-label">Option 2</label>
+                <input type="text" class="form-control" id="option2" name="option2" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="option3" class="form-label">Option 3</label>
+                <input type="text" class="form-control" id="option3" name="option3" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="answer" class="form-label">Correct Answer (0-3)</label>
+                <input type="number" class="form-control" id="answer" name="answer" min="0" max="3" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="level" class="form-label">Level</label>
+                <input type="text" class="form-control" id="level" name="level" style="width: 100%;" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="type" class="form-label">Type</label>
+                <input type="text" class="form-control" id="type" name="type" style="width: 100%;" disabled>
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn btn-danger mt-3">Delete Question</button>
+            </div>
+        </form>
+
+        <div class="text-center">
+            <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
+        </div>
+    </div>
+
+    <script>
+        function filterQuestions() {
+            num = 0;
+            var filter = document.getElementById("filter").value.toLowerCase();
+            var typeFilter = document.getElementById("type_filter").value.toLowerCase();
+            var levelFilter = document.getElementById("level_filter").value.toLowerCase();
+
+            var options = document.getElementById("question_id").options;
+
+            for (var i = 0; i < options.length; i++) {
+                var questionText = options[i].text.toLowerCase();
+                if (questionText==="select a question") {
+                    continue;
+                }
+                var digits = options[i].value.toString().length;
+                questionText = questionText.substr(digits + 2)
+
+                var questionType = options[i].getAttribute("data-type")
+                if (questionType != null)
+                {
+                    questionType = questionType.toLowerCase();
+                }
+                var questionLevel = options[i].getAttribute("data-level")
+                if (questionLevel != null)
+                {
+                    questionLevel = questionLevel.toLowerCase();
+                }
+
+                if ((filter === "" || questionText.indexOf(filter) > -1) &&
+                    (typeFilter === "" || questionType === "" || questionType.indexOf(typeFilter) > -1) &&
+                    (levelFilter === "" || questionLevel === "" || questionLevel.indexOf(levelFilter) > -1)) {
+                    options[i].style.display = "";  // Show option
+                    num++;
+                } else {
+                    options[i].style.display = "none";  // Hide option
+                }
+            }
+            document.getElementById("qe").textContent = "Select Question to Delete (id, question text): " + num + " questions listed";
+        }
+
+        function populateFields() {
+            var selectedOption = document.getElementById("question_id").selectedOptions[0];
+            if (selectedOption.value) {
+                document.getElementById("new_question").value = selectedOption.getAttribute("data-question");
+                document.getElementById("option0").value = selectedOption.getAttribute("data-option0");
+                document.getElementById("option1").value = selectedOption.getAttribute("data-option1");
+                document.getElementById("option2").value = selectedOption.getAttribute("data-option2");
+                document.getElementById("option3").value = selectedOption.getAttribute("data-option3");
+                document.getElementById("answer").value = selectedOption.getAttribute("data-answer");
+                document.getElementById("level").value = selectedOption.getAttribute("data-level");
+                document.getElementById("type").value = selectedOption.getAttribute("data-type");
+            } else {
+                document.getElementById("new_question").value = "";
+                document.getElementById("option0").value = "";
+                document.getElementById("option1").value = "";
+                document.getElementById("option2").value = "";
+                document.getElementById("option3").value = "";
+                document.getElementById("answer").value = "";
+                document.getElementById("level").value = "";
+                document.getElementById("type").value = "";
+            }
+        }
+    </script>
+    
+{% endblock %}

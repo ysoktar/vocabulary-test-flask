@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Results
+{% endblock %}
+
+{% block main %}
+
+    <div class="container mt-5">
+        <h1 class="text-center">Your Results</h1>
+        <table class="table table-striped table-bordered">
+            <thead>
+                <tr>
+                    <th>Test Date</th>
+                    <th>Type</th>
+                    <th>Correct</th>
+                    <th>Total</th>
+                    <th>Score</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if results and results|length > 0 %}
+                    {% for result in results %}
+                    <tr>
+                        <td>{{ result.date }}</td>
+                        <td>{{ result.type }}</td>
+                        <td>{{ result.correct }}</td>
+                        <td>{{ result.total }}</td>
+                        <td>{{ result.correct}} / {{ result.total }}</td>
+                    </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center">No results found.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+    
+{% endblock %}

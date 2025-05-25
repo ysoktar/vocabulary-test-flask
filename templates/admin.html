@@ -1,0 +1,27 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Admin Panel
+{% endblock %}
+
+{% block main %}
+
+    <h1 class="text-center">Administrator Panel</h1>
+
+    <div class="container mt-4">
+        <h2>Manage Questions</h2>
+        <div class="btn-group">
+            <a href="/add_question" class="btn btn-success">Add Question</a>
+            <a href="/delete_question" class="btn btn-danger">Delete Question</a>
+            <a href="/change_question" class="btn btn-warning">Change Question</a>
+            <a href="/list_questions" class="btn btn-info">List Questions</a>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="btn-group">
+            <a href="/list_users" class="btn btn-outline-success"><h3>Manage Users</h3></a>
+        </div>
+    </div>
+    
+{% endblock %}

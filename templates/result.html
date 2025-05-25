@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Test Results
+{% endblock %}
+
+{% block main %}
+
+    <h1>{{ type }} Test Results</h1>
+
+    <h3>You have {{ score }} correct
+        {% if score == 1 %}
+            answer
+        {% else %}
+            answers
+        {% endif %}
+    out of {{ questions | length }} questions.</h3>
+
+    {% if type == "Placement" %}
+        <h4>
+            {% if score >= 28 %}
+                Your level is C2.
+            {% elif score >= 23 %}
+                Your level is C1.
+            {% elif score >= 18 %}
+                Your level is B2.
+            {% elif score >= 13 %}
+                Your level is B1.
+            {% elif score >= 8 %}
+                Your level is A2.
+            {% else %}
+                Your level is A1.
+            {% endif %}
+        </h4>
+    {% endif %}
+
+    <br><br>
+
+    <p>Here are your answers for the {{ type }} test:</p>
+    <p>Underlined option is the correct answer.</p>
+    <div>
+        {% for question in questions %}
+            <p><strong>{{ loop.index }}. {{ question["question"] }}</strong></p>
+
+            {% for i in range(4) %}
+                <p  {% if question["user_answer"] == -1 and question["answer"] == i %}
+                        style="color: blue;" class="fw-bold text-decoration-underline"
+                    {% elif question["user_answer"] == i %}
+                        {% if question["user_answer"] == question["answer"] %}
+                            style="color: green;" class="fw-bold text-decoration-underline"
+                        {% else %}
+                            style="color: red;" class="fw-bold"
+                        {% endif %}
+                    {% elif question["answer"] == i %}
+                        style="color: green;" class="fw-bold text-decoration-underline"
+                    {% endif %}>
+                    {{ question["option" + i|string] }}
+                </p>
+            {% endfor %}
+        {% endfor %}
+    </div>
+    
+{% endblock %}

@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    User List
+{% endblock %}
+
+{% block main %}
+
+    <div class="container mt-4">
+        <h3>User List</h3>
+
+        <a href="/add_user" class="btn btn-primary">Add User</a>
+
+        <br><br>
+
+        <ul class="list-group">
+            {% for user in users %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <p><strong>{{ user.username }}</strong></p>
+                        <p>Role: {{ user.role }}</p>
+                    </div>
+                    <div>
+                        <a href="/edit_user/{{ user.id }}" class="btn btn-warning btn-sm me-2">Edit</a>
+                        <a href="/delete_user/{{ user.id }}" class="btn btn-danger btn-sm">Delete</a>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
+    </div>
+    
+{% endblock %}

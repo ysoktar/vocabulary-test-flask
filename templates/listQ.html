@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Question List
+{% endblock %}
+
+{% block main %}
+
+    <div class="container mt-4">
+        <h3>Question List</h3>
+
+        <a href="/add_question" class="btn btn-primary">Add Question</a>
+
+        <br><br>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Question</th>
+                    <th>Options</th>
+                    <th>Answer</th>
+                    <th>Level</th>
+                    <th>Type</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for question in questions %}
+                    <tr>
+                        <td>{{ question.id }}</td>
+                        <td>{{ question.question }}</td>
+                        <td>{{ question.option0 }}, {{ question.option1 }}, {{ question.option2 }}, {{ question.option3 }}</td>
+                        <td>{{ question.answer }}</td>
+                        <td>{{ question.level }}</td>
+                        <td>{{ question.type }}</td>
+                        <td>
+                            <a href="/delete_question/{{ question.id }}" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="/admin" class="btn btn-secondary mt-3">Back to Admin Panel</a>
+    </div>
+    
+{% endblock %}

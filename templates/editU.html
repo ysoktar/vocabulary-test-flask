@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Edit User
+{% endblock %}
+
+{% block main %}
+
+    <div class="container mt-4">
+        <h3 class="text-center">Edit role for user: {{ user.username }} </h3>
+        
+        <form action="/edit_user/{{ user.id }}" method="POST" class="mx-auto" style="max-width: 200px;">
+            <div class="mb-2">
+                <label for="role">Select Role</label>
+                <select class="form-control" id="role" name="role" style="width: 100%;" required>
+                    <option value="admin" {% if user.role == "admin" %}selected{% endif %}>Admin</option>
+                    <option value="user" {% if user.role == "user" %}selected{% endif %}>User</option>
+                </select>
+            </div>
+            
+            <button type="submit" class="btn btn-primary mt-3">Update Role</button>
+        </form>
+        
+        <div class="text-center mt-3">
+            <a href="/list_users" class="btn btn-secondary">Back to User List</a>
+        </div>
+    </div>
+    
+{% endblock %}

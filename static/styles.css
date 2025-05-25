@@ -1,0 +1,21 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+footer {
+    margin-top: auto;
+    padding: 10px;
+    background-color: grey;
+    text-align: center;
+}
